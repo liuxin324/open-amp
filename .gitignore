@@ -13,3 +13,4 @@
 # cscope files
 cscope.*
 ncscope.*
+.vscode/settings.json
