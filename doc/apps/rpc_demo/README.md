@@ -1,38 +1,39 @@
 
 # rpc_demo 
-This readme is about the OpenAMP rpc_demo demo.
-The rpc_demo is about one processor uses the UART on the other processor and create file on the other processor's filesystem with file operations.
 
-For now, It implements the processor running generic(baremetal) application access the devices on the Linux.
+这个自述文件介绍了 OpenAMP 的 rpc_demo 演示项目。rpc_demo 演示了一个处理器如何使用另一个处理器的 UART，并在另一个处理器的文件系统上通过文件操作创建文件。
+
+目前，它实现了运行通用（裸机）应用的处理器访问 Linux 上的设备.
 
 ## Compilation
 
-### Baremetal Compilation
-Option `WITH_RPC_DEMO` is to control if the application will be built.
-By default this option is `ON` when `WITH_APPS` is on.
+### 裸机编译
 
-Here is an example:
+选项 WITH_RPC_DEMO 用于控制是否构建应用程序。默认情况下，当 WITH_APPS 开启时，此选项为 ON.
+
+这里是一个示例:
 
 ```
 $ cmake ../open-amp -DCMAKE_TOOLCHAIN_FILE=zynq7_generic -DWITH_OBSOLETE=on -DWITH_APPS=ON
 ```
 
-### Linux Compilation
+### Linux 编译
 
 #### Linux Kernel Compilation
-You will need to manually compile the following kernel modules with your Linux kernel (Please refer to Linux kernel documents for how to add kernel module):
 
-* Your machine's remoteproc kernel driver
+你需要手动编译以下内核模块与你的 Linux 内核（请参考 Linux 内核文档了解如何添加内核模块）:
+
+* 你机器的 remoteproc 内核驱动
 * `obsolete/apps/rpc_demo/system/linux/kernelspace/rpmsg_proxy_dev_driver`
 
 #### Linux Userspace Compliation
-* Compile `obsolete/apps/rpc_demo/system/linux/userspace/proxy_app` into your Linux OS.
-* Add the built generic `rpc_demo` executable to the firmware of your Linux OS.
+* 将 `obsolete/apps/rpc_demo/system/linux/userspace/proxy_app` 编译进你的 Linux 操作系统.
+* 将构建好的通用 `rpc_demo` 可执行文件添加到你的 Linux 操作系统的固件中.
 
 ## Run the Demo
-After Linux boots, run `proxy_app` as follows:
+Linux 启动后，如下运行 `proxy_app`:
 ```
 # proxy_app [-m REMOTEPROC_MODULE] [-f PATH_OF_THE_RPC_DEMO_FIRMWARE]
 ```
 
-The demo application will load the remoteproc module, then the proxy rpmsg module, will output message sent from the other processor, send the console input back to the other processor. When the demo application exits, it will unload the kernel modules.
+演示应用程序将加载 remoteproc 模块，然后是 proxy rpmsg 模块，将从另一个处理器发送的消息输出，将控制台输入返回给另一个处理器。当演示应用程序退出时，它将卸载内核模块.

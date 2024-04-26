@@ -1,17 +1,17 @@
 
 # matrix_multiply 
-This readme is about the OpenAMP matrix_multiply demo.
-The matrix_multiply is about one processor generates two matrices, and send them to the one, and the other one calculate the matrix multiplicaiton and return the result matrix.
 
-For now, it implements Linux generates the matrices, and the baremetal calculate the matrix mulitplication and send back the result.
+这个自述文件介绍了 OpenAMP 的 matrix_multiply 演示项目。matrix_multiply 演示了一个处理器生成两个矩阵并将它们发送给另一个处理器，另一个处理器计算矩阵乘法并返回结果矩阵。
 
+目前，它实现了 Linux 生成矩阵，裸机计算矩阵乘法并发送回结果
 ## Compilation
 
 ### Baremetal Compilation
-Option `WITH_MATRIX_MULTIPLY` is to control if the application will be built.
-By default this option is `ON` when `WITH_APPS` is on.
 
-Here is an example:
+选项 WITH_MATRIX_MULTIPLY 用于控制是否构建应用程序。
+默认情况下，当 WITH_APPS 开启时，此选项为 ON.
+
+这里是一个示例:
 
 ```
 $ cmake ../open-amp -DCMAKE_TOOLCHAIN_FILE=zynq7_generic -DWITH_OBSOLETE=on -DWITH_APPS=ON
@@ -20,24 +20,24 @@ $ cmake ../open-amp -DCMAKE_TOOLCHAIN_FILE=zynq7_generic -DWITH_OBSOLETE=on -DWI
 ### Linux Compilation
 
 #### Linux Kernel Compilation
-You will need to manually compile the following kernel modules with your Linux kernel (Please refer to Linux kernel documents for how to add kernel module):
+你需要手动编译以下内核模块与你的 Linux 内核（请参考 Linux 内核文档了解如何添加内核模块）:
 
-* Your machine's remoteproc kernel driver
-* `obsolete/system/linux/kernelspace/rpmsg_user_dev_driver` if you want to run the matrix_multiply app in Linux user space.
-* `obsolete/apps/matrix_multiply/system/linux/kernelspace/rpmsg_mat_mul_kern_app` if you want to run the matrix_multiply app in Linux kernel space.
+* 你机器的 remoteproc 内核驱动
+* 如果你想在 Linux 用户空间运行 matrix_multiply 应用，编译 `obsolete/system/linux/kernelspace/rpmsg_user_dev_driver`
+* 如果你想在 Linux 内核空间运行 matrix_multiply 应用，编译 `obsolete/apps/matrix_multiply/system/linux/kernelspace/rpmsg_mat_mul_kern_app`
 
 #### Linux Userspace Compliation
-* Compile `obsolete/apps/matrix_multiply/system/linux/userspace/mat_mul_demo` into your Linux OS.
-* If you are running generic(baremetal) system as remoteproc remote, and Linux as remoteproc host, please also add the built generic `matrix_multiply` executable to the firmware of your Linux OS.
+* 将 `obsolete/apps/matrix_multiply/system/linux/userspace/mat_mul_demo` 编译进你的 Linux 操作系统.
+* 如果你运行的是作为 remoteproc 远端的通用（裸机）系统，以及作为 remoteproc 宿主的 Linux，请也将构建好的通用 matrix_multiply 可执行文件添加到你的 Linux 操作系统的固件中.
 
 ## Run the Demo
 
 ### Load the Demo
-After Linux boots,
-* Load the machine remoteproc. If Linux runs as remoteproc host, you will need to pass the other processor's matrix_multiply binary as firmware argument to the remoteproc module.
-* If you run the Linux kernel application demo, load the `rpmsg_mat_mul_kern_app` module, you will see the kernel app will generate two matrices to the other processor, and output the result matrix returned by the other processor.
-* If you run the userspace application demo, load the `rpmsg_user_dev_driver` module.
-* If you run the userspace application demo `mat_mul_demo`, you will see the similar output on the console:
+Linux 启动后,
+* 加载机器 remoteproc。如果 Linux 作为 remoteproc 宿主运行，你需要将另一个处理器的 matrix_multiply 二进制文件作为固件参数传递给 remoteproc 模块.
+* 如果你运行 Linux 内核应用演示，加载 `rpmsg_mat_mul_kern_app` 模块，你将看到内核应用生成两个矩阵发送给另一个处理器，并输出另一个处理器返回的结果矩阵.
+* 如果你运行用户空间应用演示，加载 `rpmsg_user_dev_driver` 模块.
+* 如果你运行用户空间应用演示 `mat_mul_demo`，你将在控制台上看到类似的输出:
 ```
 ****************************************
 Please enter command and press enter key

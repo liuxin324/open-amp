@@ -1,15 +1,14 @@
 
 # echo_test
-This readme is about the OpenAMP echo_test demo.
-The echo_test is about one processor sends message to the other one, and the other one echo back the message. The processor which sends the message will verify the echo message.
+这个自述文件介绍了 OpenAMP 的 echo_test 演示项目。echo_test 演示了一个处理器向另一个处理器发送消息，另一个处理器将消息回显。发送消息的处理器将验证回显消息。
 
-For now, it implements Linux sends the message, and the baremetal echos back.
+目前，它实现了 Linux 发送消息，裸机回显.
 
 ## Compilation
 
 ### Baremetal Compilation
-Option `WITH_ECHO_TEST` is to control if the application will be built.
-By default this option is `ON` when `WITH_APPS` is on.
+选项 `WITH_ECHO_TEST `用于控制是否构建应用程序。
+默认情况下，当 `WITH_APPS `开启时，此选项为`ON`.
 
 Here is an example:
 
@@ -28,16 +27,16 @@ You will need to manually compile the following kernel modules with your Linux k
 
 #### Linux Userspace Compliation
 * Compile `obsolete/apps/echo_test/system/linux/userspace/echo_test` into your Linux OS.
-* If you are running generic(baremetal) system as remoteproc remote, and Linux as remoteproc host, please also add the built generic `echo_test` executable to the firmware of your Linux OS.
+* 如果你运行的是作为 remoteproc 远端的通用（裸机）系统，以及作为 remoteproc 宿主的 Linux，请也将构建好的通用 echo_test 可执行文件添加到你的 Linux 操作系统的固件中.
 
 ## Run the Demo
 
 ### Load the Demo
 After Linux boots,
-* Load the machine remoteproc. If Linux runs as remoteproc host, you will need to pass the other processor's echo_test binary as firmware argument to the remoteproc module.
-* If you run the Linux kernel application demo, load the `rpmsg_echo_test_kern_app` module. You will see the kernel application send the message to remote and the remote reply back and the kernel application will verify the result.
-* If you run the userspace application demo, load the `rpmsg_user_dev_driver` module.
-* If you run the userspace application demo, you will see the similar output on the console:
+* 加载机器 remoteproc。如果 Linux 作为 remoteproc 宿主运行，你需要将另一个处理器的 echo_test 二进制文件作为固件参数传递给 remoteproc 模块.
+* 如果你运行 Linux 内核应用演示，加载 rpmsg_echo_test_kern_app 模块。你将看到内核应用向远端发送消息，远端回复消息，内核应用将验证结果.
+* 如果你运行用户空间应用演示，加载 rpmsg_user_dev_driver 模块.
+* 如果你运行用户空间应用演示，你将在控制台上看到类似的输出:
 ```
 ****************************************
  Please enter command and press enter key
